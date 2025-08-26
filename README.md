@@ -48,5 +48,3 @@ A Chrome extension that helps you send friend requests on Roblox automatically w
 - JSON validation with visual feedback
 - Automatic CSRF token handling
 - Rate limit detection and handling
-
-The extension will automatically handle authentication and send friend requests to all users in your JSON list with the specified delay between each request.
