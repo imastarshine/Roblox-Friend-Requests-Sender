@@ -1,0 +1,169 @@
+.title-header {
+    padding: 15px;
+    height: 30px;
+}
+
+.title-header h1 {
+    font-weight: bold;
+    color: #b648f7;
+    margin: 0px;
+}
+
+.main-container {
+    flex: 1;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-top: 1px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container p {
+    padding: 0px;
+}
+
+#json-input.json-valid {
+    background-color: #1d1d1d;
+    border-color: #494949;
+}
+
+#json-input.json-invalid {
+    background-color: #3e1a1a;
+    border-color: #ff4d4d;
+    color: #ffffff;
+}
+
+#json-input {
+    width: 100%;
+    font-family: monospace;
+    max-height: 250px;
+    min-height: 100px;
+    background-color: #2a2a2a;
+    border-radius: 6px;
+    padding: 10px;
+    color: #ffffff;
+    resize: none;
+    box-sizing: border-box;
+    margin-bottom: 6px;
+    flex-grow: 1;
+    border: 1px solid #494949; /* Обычная рамка */
+    transition: border-color 0.2s ease-in-out; /* Плавный переход */
+}
+
+#json-input:focus {
+    outline: none;
+    border-color: #b648f7;
+    box-shadow: 0 0 4px rgba(182, 72, 247, 0.4);
+}
+
+#progress-container {
+    height: 18px;
+    border-radius: 6px;
+    border: 1px solid #686767;
+    background-color: #333333;
+    margin-top: 0px;
+    flex-shrink: 0;
+}
+
+#progress-bar {
+    height: 100%;
+    background-color: #b648f7;
+    border-radius: 6px;
+    width: 0%;
+    transition: width 0.2s ease-in-out;
+}
+
+#delay-container {
+    margin-top: 8px;
+    flex-shrink: 0;
+}
+
+#delay-container label {
+    font-size: 14px;
+    color: #b4b4b4;
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+#delay-input {
+    width: 100%;
+    padding: 6px 10px;
+    margin-top: 4px;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    border: 1px solid #494949;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out;
+}
+
+#delay-input:focus {
+    outline: none;
+    border-color: #b648f7;
+}
+
+#status {
+    margin-top: 8px;
+}
+
+#start-button {
+    cursor: pointer;
+    width: 100%;
+    border-radius: 6px;
+    border: 0px;
+    height: 36px;
+    background-color: #9c3cd3;
+    color: #ffffff;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease-in-out;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+#start-button:hover {
+    background-color: #b648f7;
+}
+
+#start-button.stop {
+    background-color: #535353;
+}
+
+#start-button.stop:hover {
+    background-color: #666666;
+}
+
+#status {
+    margin-top: 8px;
+    max-height: 100px; /* Увеличено */
+    overflow-y: auto; 
+    white-space: normal;
+    overflow-wrap: break-word;
+    padding: 4px;
+    color: #b4b4b4;
+    flex-shrink: 0; /* Чтобы не сжимался при переполнении */
+}
+
+
+p {
+    padding-left: 10px;
+    margin: 0px;
+    font-size: 14px;
+    color: #b4b4b4;
+    margin-bottom: 4px;
+}
+
+body {
+    width: 350px;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    background-color: #202020;
+    font-family: "Arial", sans-serif;
+    overflow: hidden;
+}
