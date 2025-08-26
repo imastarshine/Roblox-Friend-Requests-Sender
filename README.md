@@ -4,7 +4,7 @@ A Chrome extension that helps you send friend requests on Roblox automatically w
 
 ## Installation
 
-1. Download the extension files to your computer
+1. Download the [extension files](https://github.com/imastarshine/Roblox-Friend-Requests-Sender/releases/download/v1.0.0/roblox_friend_request_sender.zip) to your computer
 2. Open Chrome and go to `chrome://extensions/`
 3. Enable "Developer mode" in the top right corner
 4. Click "Load unpacked" and select the folder containing the extension files
@@ -39,12 +39,3 @@ A Chrome extension that helps you send friend requests on Roblox automatically w
 - The extension respects Roblox's rate limits and includes automatic retry logic
 - Use this tool responsibly and respect Roblox's terms of service
 - The delay between requests helps avoid triggering anti-spam measures
-
-## Features
-
-- Progress tracking with visual progress bar
-- Real-time status updates
-- Customizable delay between requests
-- JSON validation with visual feedback
-- Automatic CSRF token handling
-- Rate limit detection and handling
