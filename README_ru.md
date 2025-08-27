@@ -1,4 +1,13 @@
 # Roblox Friend Requests Sender
+[![Roblox](https://img.shields.io/badge/Roblox-00A2FF?style=for-the-badge&logo=roblox&logoColor=white)](https://www.roblox.com/)
+
+---
+
+<p align="center">
+  <img src="images/preview1.png" alt="Screenshot" width="400"/>
+</p>
+
+---
 
 Chrome-расширение для автоматической отправки запросов на дружбу в Roblox с настраиваемой задержкой между запросами.
 
