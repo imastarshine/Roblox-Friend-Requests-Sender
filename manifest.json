@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Roblox Friend Request Sender",
-  "version": "1.0",
-  "description": "EZ",
+  "version": "1.0.1",
+  "description": "Automate Roblox friend requests with ease. Set your delay, paste your list, and grow your network while you focus on what matters.",
   "permissions": [
       "storage"
   ],

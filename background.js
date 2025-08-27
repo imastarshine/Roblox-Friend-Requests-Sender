@@ -108,14 +108,121 @@ async function sendFriendRequest(userId, userInfo, token) {
     }
 }
 
+function chunkArray(arr, size) {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+        result.push(arr.slice(i, i + size));
+    }
+    return result;
+}
+
+async function fetchUserRequests(usersArray, token) {
+    const userIds = Object.keys(usersArray);
+    const chunks = chunkArray(userIds, 200);
+    let users = [];
+
+    let userBioAttempts = 0;
+    let userId = 0;
+
+    while (working) {
+        try {
+            setStatus("Getting username");
+
+            const response = await fetch("https://users.roblox.com/v1/users/authenticated", {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', 'x-csrf-token': token },
+                credentials: 'include'
+            });
+
+            if (response.status === 200) {
+                const data = await response.json();
+                userId = data.id;
+                break;
+            } else if (response.status === 401) {
+                throw new Error("Unauthorized – not logged in");
+            } else if (response.status === 403) {
+                token = await getCsrfToken();
+            } else {
+                console.log(`Unexpected status: ${response.status}`);
+            }
+        } catch (error) {
+            console.log(`Error on getting user bio: ${error.message}`);
+        }
+
+        userBioAttempts++;
+        if (userBioAttempts >= 10) {
+            console.log(`Too many attempts on getting user bio. Giving up`);
+            return null;
+        }
+
+        await sleep(1000, controller.signal);
+    }
+
+    if (!userId) {
+        console.log(`Failed to get user bio`);
+        return null;
+    }
+
+    for (const chunk of chunks) {
+        let statusAttempts = 0;
+        while (working) {
+            try {
+                if (shouldStop) {
+                    console.log("Stopped by user");
+                    break;
+                }
+                setStatus(`Inspecting requests:  ${users.length} / ${userIds.length}`);
+                progressMaxUser = userIds.length;
+                progressCurrentUser = users.length;
+                updateProgress();
+                const response = await fetch(`https://friends.roblox.com/v1/users/${userId}/friends/statuses?userIds=${chunk.join(',')}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json', 'x-csrf-token': token },
+                    credentials: 'include'
+                });
+
+                if (response.status === 200) {
+                    const json = await response.json();
+                    const dataArr = Array.isArray(json) ? json : json.data || [];
+                    for (const user of dataArr) {
+                        if (user.status === "NotFriends" && user.id !== userId) {
+                            users.push(user.id);
+                        }
+                    }
+                    break;
+                } else if (response.status === 403) {
+                    token = await getCsrfToken();
+                } else if (response.status === 429) {
+                    console.log("Rate limited, waiting 30s");
+                    await sleep(30000, controller.signal);
+                } else {
+                    console.log(`Unexpected status: ${response.status}`);
+                }
+            } catch (error) {
+                console.log(`Error on getting user statuses: ${error.message}`);
+            }
+
+            statusAttempts++;
+            if (statusAttempts >= 10) {
+                console.log("Too many attempts on getting user statuses. Giving up");
+                break;
+            }
+
+            await sleep(1000, controller.signal);
+        }
+        await sleep(1000, controller.signal);
+    }
+
+    return users;
+}
+
 async function start(usersJSON) {
     const users = JSON.parse(usersJSON);
 
     working = true;
     let token = "";
-    const userIds = Object.keys(users);
-    progressMaxUser = userIds.length;
-    progressCurrentUser = 0;
+    // const userIds = Object.keys(users);
+    let userIds = [];
     let i = 0;
 
     try {
@@ -124,6 +231,22 @@ async function start(usersJSON) {
     } catch (error) {
         console.log(`Error getting CSRF token: ${error.message}`);
         setStatus(`An error occurred on getting CSRF token: ${error.message}`);
+        chrome.runtime.sendMessage({ action: "stop_script" });
+        working = false;
+        return;
+    }
+
+    try {
+        userIds = await fetchUserRequests(users, token);
+        progressMaxUser = userIds.length;
+        progressCurrentUser = 0;
+    } catch (error) {
+        setStatus(`An error occurred on getting user requests: ${error.message}`);
+        return;
+    }
+
+    if (!userIds) {
+        setStatus(`Something went wrong on getting user requests`);
         chrome.runtime.sendMessage({ action: "stop_script" });
         working = false;
         return;

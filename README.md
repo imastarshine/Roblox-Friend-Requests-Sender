@@ -39,3 +39,8 @@ A Chrome extension that helps you send friend requests on Roblox automatically w
 - The extension respects Roblox's rate limits and includes automatic retry logic
 - Use this tool responsibly and respect Roblox's terms of service
 - The delay between requests helps avoid triggering anti-spam measures
+
+---
+
+This project uses Material Icons from Google (https://fonts.google.com/icons),
+licensed under the Apache License 2.0.
